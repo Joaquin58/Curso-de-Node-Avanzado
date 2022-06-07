@@ -23,8 +23,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 const upload = require("./middleware/uploadMiddleware");
+// middleware: es el punto intermedio entre la petición y la resolución de la petición
+// este nos permite administrar una imagen y poder enviarla al multer para procesarlo
 
-
+                                      //photo es el nombre del imput del formulario
 app.post("/confirmacion", upload.single("photo"), (req, res, next) => {
   res.render( "confirmacion" , {datos: req.body ,  files:req.file} ); 
 });
