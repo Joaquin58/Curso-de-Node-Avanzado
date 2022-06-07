@@ -1,14 +1,15 @@
 const fs = require("fs");
 
 const streamLectura = fs.createReadStream( "./archivos/mi_archivo.txxxxxxt" , {encoding:'utf8'} );
-                                            //archivo a leer                  codificación del archivo
-streamLectura.on("open" , ()=>{     //metodo (.on) escucha los eventos del ciclo de vida de lectura del archivo
+
+
+streamLectura.on("open" , ()=>{
     console.log("abriendo archivo")
-}).on("data" , ()=>{            //cuando llega un dato del archivo, cada vez que lelga un dato se lee de manera progresiva
+}).on("data" , ()=>{
     console.log("----")
-}).on('close', ()=>{            //cuando se cierra el archivo
+}).on('close', ()=>{
     console.log("archivo cerrado") 
-}).on('error' , ()=>{           //cuando ocurre un error
+}).on('error' , ()=>{
      console.log("error en el archivo")
 })
  

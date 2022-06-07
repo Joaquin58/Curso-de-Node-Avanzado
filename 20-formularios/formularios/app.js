@@ -22,9 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.post("/confirmacion", (req, res, next) => { //body-parser es un modulo que nos permite analizar la información que envia
-  //nuestro formulario
-  res.render( "confirmacion" , {datos: req.body} ); //renderiza una plantilla que utilizará los datos que enviamos por body
+app.post("/confirmacion", (req, res, next) => {
+  res.render( "confirmacion" , {datos: req.body} );
 });
 
 // catch 404 and forward to error handler

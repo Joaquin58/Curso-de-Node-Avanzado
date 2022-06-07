@@ -7,10 +7,7 @@ block content
       h1(class="title is-1") Contacto  
 
       form(name="miformulario" action="/confirmacion" method="POST" enctype="multipart/form-data" )
-<!--
-enctype como propiedad de form nos permite el envio de archivos a través del formulario,
-de la misma forma funcionaria en html
- -->
+      
           div.field
               label.label Nombre
               div.control.has-icons-left.has-icons-right
@@ -28,7 +25,6 @@ de la misma forma funcionaria en html
                 label.label Subject
                 div.control
                     input(name="photo",type="file")
-                    //- <!--de la misma manera definimos el tipo que será file en el input para que podamos subir archivos -->
 
           div.field
               label.label Message

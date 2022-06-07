@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use('/video-static' , (req, res, next) => { //envia todo el video
+app.use('/video-static' , (req, res, next) => { 
 
   const fileName = __dirname + "/public/video/video.mp4";
 
@@ -36,7 +36,7 @@ app.use('/video-static' , (req, res, next) => { //envia todo el video
 
 })
 
-app.use("/video-stream",  (req, res, next) => { //envia la parte del video que necesita el usuario
+app.use("/video-stream",  (req, res, next) => {
 
   const fileName = "./public/video/video.mp4";
 
@@ -44,16 +44,15 @@ app.use("/video-stream",  (req, res, next) => { //envia la parte del video que n
     "Content-Type": "video/mp4"
   });
 
-  createReadStream(fileName).pipe(res); //el pipe redirecciona los datos que irán llegando del archivo, en este caso
-  //a la respuesta
+  createReadStream(fileName).pipe(res);
 
 });
 
 app.use("/video-rango", async (req, res, next) => {
 
   const fileName = "./public/video/video.mp4";
-  const { size } = await fileInfo(fileName); //mide el tamaño del video
-  const range = req.headers.range; //el usuario al mover la barra de tiempo del video hace una peticion de rango que desae vizualizar
+  const { size } = await fileInfo(fileName);
+  const range = req.headers.range;
 
   if( range){
 
@@ -63,12 +62,12 @@ app.use("/video-rango", async (req, res, next) => {
 
     res.writeHead(206, {
       "Content-Type": "video/mp4",
-      "Content-Length": end - start + 1,  //define el tamaño del video
-      "Accept-Ranges": "bytes",   //soporte de rangos
-      "Content-Range": `bytes ${start}-${end}/${size}`    //informacion para que el navegador comprenda la petición
+      "Content-Length": end - start + 1,
+      "Accept-Ranges": "bytes",
+      "Content-Range": `bytes ${start}-${end}/${size}`
     });
 
-    createReadStream(fileName, { start, end }).pipe(res); //envia la petición que está dentro del rango que el usuario solicita
+    createReadStream(fileName, { start, end }).pipe(res);
 
   }else{
     res.writeHead(200, {
