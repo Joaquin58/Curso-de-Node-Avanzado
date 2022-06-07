@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use('/video-static' , (req, res, next) => { 
+app.use('/video-static' , (req, res, next) => { //envia todo el video
 
   const fileName = __dirname + "/public/video/video.mp4";
 
@@ -36,7 +36,7 @@ app.use('/video-static' , (req, res, next) => {
 
 })
 
-app.use("/video-stream",  (req, res, next) => {
+app.use("/video-stream",  (req, res, next) => { //envia la parte del video que necesita el usuario
 
   const fileName = "./public/video/video.mp4";
 
@@ -44,15 +44,16 @@ app.use("/video-stream",  (req, res, next) => {
     "Content-Type": "video/mp4"
   });
 
-  createReadStream(fileName).pipe(res);
+  createReadStream(fileName).pipe(res); //el pipe redirecciona los datos que irán llegando del archivo, en este caso
+  //a la respuesta
 
 });
 
 app.use("/video-rango", async (req, res, next) => {
 
   const fileName = "./public/video/video.mp4";
-  const { size } = await fileInfo(fileName);
-  const range = req.headers.range;
+  const { size } = await fileInfo(fileName); //mide el tamaño del video
+  const range = req.headers.range; //el usuario al mover la barra de tiempo del video hace una peticion de rango que desae vizualizar
 
   if( range){
 
@@ -62,12 +63,12 @@ app.use("/video-rango", async (req, res, next) => {
 
     res.writeHead(206, {
       "Content-Type": "video/mp4",
-      "Content-Length": end - start + 1,
-      "Accept-Ranges": "bytes",
-      "Content-Range": `bytes ${start}-${end}/${size}`
+      "Content-Length": end - start + 1,  //define el tamaño del video
+      "Accept-Ranges": "bytes",   //soporte de rangos
+      "Content-Range": `bytes ${start}-${end}/${size}`    //informacion para que el navegador comprenda la petición
     });
 
-    createReadStream(fileName, { start, end }).pipe(res);
+    createReadStream(fileName, { start, end }).pipe(res); //envia la petición que está dentro del rango que el usuario solicita
 
   }else{
     res.writeHead(200, {
